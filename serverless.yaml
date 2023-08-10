@@ -1,0 +1,43 @@
+service: redform-azure-test-function
+
+frameworkVersion: '3'
+
+provider:
+  name: azure
+  region: West Europe
+  runtime: python3.8
+
+plugins:
+  - serverless-azure-functions
+  - serverless-offline
+
+package:
+  patterns:
+    - '!env/**'
+    - '!.env/**'
+    - '!local.settings.json'
+    - '!.vscode/**'
+    - '!__pycache__/**'
+    - '!node_modules/**'
+    - '!.python_packages/**'
+    - '!.funcignore'
+    - '!package.json'
+    - '!package-lock.json'
+    - '!.gitignore'
+    - '!.git/**'
+
+functions:
+  list_quotes:
+    handler: src/api/v1/handlers/quotes/list_quotes.main
+    events:
+      - http:
+          path: /quotes
+          method: GET
+          authLevel: function
+  random_quote:
+    handler: src/api/v1/handlers/quotes/random_quote.main
+    events:
+      - http:
+          path: /random
+          method: GET
+          authLevel: function
